@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Hillsborough Road Upgrade</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/RoadDesignConceptDesign_3.js"></script>
+        <script src="data/ExistingUtilities_4.js"></script>
+        <script src="data/DesignUtilities_5.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#02aeef',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#02aeef',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_Greyscale_0');
+        map.getPane('pane_Greyscale_0').style.zIndex = 400;
+        var layer_Greyscale_0 = L.tileLayer('https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            pane: 'pane_Greyscale_0',
+            opacity: 1.0,
+            attribution: '<a href="https://cartodb.com/basemaps/">Map tiles by CartoDB, under CC BY 3.0. Data by OpenStreetMap, under ODbL.</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_Greyscale_0;
+        map.createPane('pane_GoogleSatellite_1');
+        map.getPane('pane_GoogleSatellite_1').style.zIndex = 401;
+        var layer_GoogleSatellite_1 = L.tileLayer('https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleSatellite_1;
+        map.createPane('pane_GoogleHybrid_2');
+        map.getPane('pane_GoogleHybrid_2').style.zIndex = 402;
+        var layer_GoogleHybrid_2 = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleHybrid_2',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleHybrid_2;
+        map.addLayer(layer_GoogleHybrid_2);
+        function pop_RoadDesignConceptDesign_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Layer'] !== null ? autolinker.link(feature.properties['Layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_RoadDesignConceptDesign_3_0() {
+            return {
+                pane: 'pane_RoadDesignConceptDesign_3',
+                opacity: 1,
+                color: 'rgba(214,203,121,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_RoadDesignConceptDesign_3');
+        map.getPane('pane_RoadDesignConceptDesign_3').style.zIndex = 403;
+        map.getPane('pane_RoadDesignConceptDesign_3').style['mix-blend-mode'] = 'normal';
+        var layer_RoadDesignConceptDesign_3 = new L.geoJson(json_RoadDesignConceptDesign_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_RoadDesignConceptDesign_3',
+            layerName: 'layer_RoadDesignConceptDesign_3',
+            pane: 'pane_RoadDesignConceptDesign_3',
+            onEachFeature: pop_RoadDesignConceptDesign_3,
+            style: style_RoadDesignConceptDesign_3_0,
+        });
+        bounds_group.addLayer(layer_RoadDesignConceptDesign_3);
+        map.addLayer(layer_RoadDesignConceptDesign_3);
+        function pop_ExistingUtilities_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Layer</th>\
+                        <td>' + (feature.properties['Layer'] !== null ? autolinker.link(feature.properties['Layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Asset Type</th>\
+                        <td>' + (feature.properties['Asset Type'] !== null ? autolinker.link(feature.properties['Asset Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ExistingUtilities_4_0(feature) {
+            switch(String(feature.properties['Asset Type'])) {
+                case 'E COMM':
+                    return {
+                pane: 'pane_ExistingUtilities_4',
+                opacity: 1,
+                color: 'rgba(227,28,220,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'E ELEC':
+                    return {
+                pane: 'pane_ExistingUtilities_4',
+                opacity: 1,
+                color: 'rgba(227,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'E SEWR':
+                    return {
+                pane: 'pane_ExistingUtilities_4',
+                opacity: 1,
+                color: 'rgba(255,127,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'E TCS':
+                    return {
+                pane: 'pane_ExistingUtilities_4',
+                opacity: 1,
+                color: 'rgba(227,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'E WATR':
+                    return {
+                pane: 'pane_ExistingUtilities_4',
+                opacity: 1,
+                color: 'rgba(119,253,255,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ExistingUtilities_4');
+        map.getPane('pane_ExistingUtilities_4').style.zIndex = 404;
+        map.getPane('pane_ExistingUtilities_4').style['mix-blend-mode'] = 'normal';
+        var layer_ExistingUtilities_4 = new L.geoJson(json_ExistingUtilities_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ExistingUtilities_4',
+            layerName: 'layer_ExistingUtilities_4',
+            pane: 'pane_ExistingUtilities_4',
+            onEachFeature: pop_ExistingUtilities_4,
+            style: style_ExistingUtilities_4_0,
+        });
+        bounds_group.addLayer(layer_ExistingUtilities_4);
+        map.addLayer(layer_ExistingUtilities_4);
+        function pop_DesignUtilities_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Layer</th>\
+                        <td>' + (feature.properties['Layer'] !== null ? autolinker.link(feature.properties['Layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Asset Type</th>\
+                        <td>' + (feature.properties['Asset Type'] !== null ? autolinker.link(feature.properties['Asset Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DesignUtilities_5_0(feature) {
+            switch(String(feature.properties['Asset Type'])) {
+                case 'D COMM':
+                    return {
+                pane: 'pane_DesignUtilities_5',
+                opacity: 1,
+                color: 'rgba(227,28,220,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'D ELEC':
+                    return {
+                pane: 'pane_DesignUtilities_5',
+                opacity: 1,
+                color: 'rgba(227,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'D WATR':
+                    return {
+                pane: 'pane_DesignUtilities_5',
+                opacity: 1,
+                color: 'rgba(119,253,255,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_DesignUtilities_5');
+        map.getPane('pane_DesignUtilities_5').style.zIndex = 405;
+        map.getPane('pane_DesignUtilities_5').style['mix-blend-mode'] = 'normal';
+        var layer_DesignUtilities_5 = new L.geoJson(json_DesignUtilities_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_DesignUtilities_5',
+            layerName: 'layer_DesignUtilities_5',
+            pane: 'pane_DesignUtilities_5',
+            onEachFeature: pop_DesignUtilities_5,
+            style: style_DesignUtilities_5_0,
+        });
+        bounds_group.addLayer(layer_DesignUtilities_5);
+        map.addLayer(layer_DesignUtilities_5);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Hillsborough Road Upgrade</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'bottomright'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+                    this._div.setAttribute("onmouseenter", "abstract.show()");
+                    this._div.setAttribute("onmouseleave", "abstract.hide()");
+                    this.hide();
+                    return this._div;
+                };
+                abstract.hide = function () {
+                    this._div.classList.remove("abstractUncollapsed");
+                    this._div.classList.add("abstract");
+                    this._div.innerHTML = 'i'
+                }
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'This GIS Web Portal has been created to support the Hillsborough Road Upgrade project for Transport for NSW. This is an open portal for demonstration purposes only, the portal for the Detailed Design will be secure using Azure AD Single Sign-on (SSO) and Multi-Factor Authentication (MFA) for all users.';
+            };
+            abstract.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Design Utilities<br /><table><tr><td style="text-align: center;"><img src="legend/DesignUtilities_5_DesignCommunications0.png" /></td><td>Design Communications</td></tr><tr><td style="text-align: center;"><img src="legend/DesignUtilities_5_DesignElectrical1.png" /></td><td>Design Electrical</td></tr><tr><td style="text-align: center;"><img src="legend/DesignUtilities_5_DesignWater2.png" /></td><td>Design Water</td></tr></table>': layer_DesignUtilities_5,'Existing Utilities<br /><table><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingCommunications0.png" /></td><td>Existing Communications</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingElectrical1.png" /></td><td>Existing Electrical</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingSewer2.png" /></td><td>Existing Sewer</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingTrafficControlSignalTCS3.png" /></td><td>Existing Traffic Control Signal (TCS)</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingWater4.png" /></td><td>Existing Water</td></tr></table>': layer_ExistingUtilities_4,'<img src="legend/RoadDesignConceptDesign_3.png" /> Road Design – Concept Design ': layer_RoadDesignConceptDesign_3,"Google Hybrid": layer_GoogleHybrid_2,"Google Satellite ": layer_GoogleSatellite_1,"Greyscale": layer_Greyscale_0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
