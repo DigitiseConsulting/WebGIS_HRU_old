@@ -35,6 +35,8 @@
         <script src="data/RoadDesignConceptDesign_3.js"></script>
         <script src="data/ExistingUtilities_4.js"></script>
         <script src="data/DesignUtilities_5.js"></script>
+        <script src="data/Cadastral_6.js"></script>
+        <script src="data/REFLimitworkWorksBoundary_7.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -341,6 +343,124 @@
         });
         bounds_group.addLayer(layer_DesignUtilities_5);
         map.addLayer(layer_DesignUtilities_5);
+        function pop_Cadastral_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Layer'] !== null ? autolinker.link(feature.properties['Layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PaperSpace'] !== null ? autolinker.link(feature.properties['PaperSpace'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SubClasses'] !== null ? autolinker.link(feature.properties['SubClasses'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Linetype'] !== null ? autolinker.link(feature.properties['Linetype'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['EntityHandle'] !== null ? autolinker.link(feature.properties['EntityHandle'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Text'] !== null ? autolinker.link(feature.properties['Text'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Cadastral_6_0() {
+            return {
+                pane: 'pane_Cadastral_6',
+                opacity: 1,
+                color: 'rgba(125,139,143,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Cadastral_6');
+        map.getPane('pane_Cadastral_6').style.zIndex = 406;
+        map.getPane('pane_Cadastral_6').style['mix-blend-mode'] = 'normal';
+        var layer_Cadastral_6 = new L.geoJson(json_Cadastral_6, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Cadastral_6',
+            layerName: 'layer_Cadastral_6',
+            pane: 'pane_Cadastral_6',
+            onEachFeature: pop_Cadastral_6,
+            style: style_Cadastral_6_0,
+        });
+        bounds_group.addLayer(layer_Cadastral_6);
+        map.addLayer(layer_Cadastral_6);
+        function pop_REFLimitworkWorksBoundary_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Layer'] !== null ? autolinker.link(feature.properties['Layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PaperSpace'] !== null ? autolinker.link(feature.properties['PaperSpace'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SubClasses'] !== null ? autolinker.link(feature.properties['SubClasses'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Linetype'] !== null ? autolinker.link(feature.properties['Linetype'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['EntityHandle'] !== null ? autolinker.link(feature.properties['EntityHandle'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Text'] !== null ? autolinker.link(feature.properties['Text'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_REFLimitworkWorksBoundary_7_0() {
+            return {
+                pane: 'pane_REFLimitworkWorksBoundary_7',
+                opacity: 1,
+                color: 'rgba(51,160,44,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_REFLimitworkWorksBoundary_7');
+        map.getPane('pane_REFLimitworkWorksBoundary_7').style.zIndex = 407;
+        map.getPane('pane_REFLimitworkWorksBoundary_7').style['mix-blend-mode'] = 'normal';
+        var layer_REFLimitworkWorksBoundary_7 = new L.geoJson(json_REFLimitworkWorksBoundary_7, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_REFLimitworkWorksBoundary_7',
+            layerName: 'layer_REFLimitworkWorksBoundary_7',
+            pane: 'pane_REFLimitworkWorksBoundary_7',
+            onEachFeature: pop_REFLimitworkWorksBoundary_7,
+            style: style_REFLimitworkWorksBoundary_7_0,
+        });
+        bounds_group.addLayer(layer_REFLimitworkWorksBoundary_7);
+        map.addLayer(layer_REFLimitworkWorksBoundary_7);
             var title = new L.Control();
             title.onAdd = function (map) {
                 this._div = L.DomUtil.create('div', 'info');
@@ -373,7 +493,7 @@
             };
             abstract.addTo(map);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'Design Utilities<br /><table><tr><td style="text-align: center;"><img src="legend/DesignUtilities_5_DesignCommunications0.png" /></td><td>Design Communications</td></tr><tr><td style="text-align: center;"><img src="legend/DesignUtilities_5_DesignElectrical1.png" /></td><td>Design Electrical</td></tr><tr><td style="text-align: center;"><img src="legend/DesignUtilities_5_DesignWater2.png" /></td><td>Design Water</td></tr></table>': layer_DesignUtilities_5,'Existing Utilities<br /><table><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingCommunications0.png" /></td><td>Existing Communications</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingElectrical1.png" /></td><td>Existing Electrical</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingSewer2.png" /></td><td>Existing Sewer</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingTrafficControlSignalTCS3.png" /></td><td>Existing Traffic Control Signal (TCS)</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingWater4.png" /></td><td>Existing Water</td></tr></table>': layer_ExistingUtilities_4,'<img src="legend/RoadDesignConceptDesign_3.png" /> Road Design – Concept Design ': layer_RoadDesignConceptDesign_3,"Google Hybrid": layer_GoogleHybrid_2,"Google Satellite ": layer_GoogleSatellite_1,"Greyscale": layer_Greyscale_0,}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/REFLimitworkWorksBoundary_7.png" /> REF Limit work Works Boundary': layer_REFLimitworkWorksBoundary_7,'<img src="legend/Cadastral_6.png" /> Cadastral': layer_Cadastral_6,'Design Utilities<br /><table><tr><td style="text-align: center;"><img src="legend/DesignUtilities_5_DesignCommunications0.png" /></td><td>Design Communications</td></tr><tr><td style="text-align: center;"><img src="legend/DesignUtilities_5_DesignElectrical1.png" /></td><td>Design Electrical</td></tr><tr><td style="text-align: center;"><img src="legend/DesignUtilities_5_DesignWater2.png" /></td><td>Design Water</td></tr></table>': layer_DesignUtilities_5,'Existing Utilities<br /><table><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingCommunications0.png" /></td><td>Existing Communications</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingElectrical1.png" /></td><td>Existing Electrical</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingSewer2.png" /></td><td>Existing Sewer</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingTrafficControlSignalTCS3.png" /></td><td>Existing Traffic Control Signal (TCS)</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingUtilities_4_ExistingWater4.png" /></td><td>Existing Water</td></tr></table>': layer_ExistingUtilities_4,'<img src="legend/RoadDesignConceptDesign_3.png" /> Road Design – Concept Design ': layer_RoadDesignConceptDesign_3,"Google Hybrid": layer_GoogleHybrid_2,"Google Satellite ": layer_GoogleSatellite_1,"Greyscale": layer_Greyscale_0,}).addTo(map);
         setBounds();
         </script>
     </body>
